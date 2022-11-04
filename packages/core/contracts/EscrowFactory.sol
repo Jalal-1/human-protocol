@@ -29,10 +29,9 @@ contract EscrowFactory {
         staking = _staking;
     }
 
-    function createEscrow(address[] memory trustedHandlers)
-        public
-        returns (address)
-    {
+    function createEscrow(
+        address[] memory trustedHandlers
+    ) public returns (address) {
         require(staking != address(0), 'Staking is not configured');
         bool hasAvailableStake = IStaking(staking).hasAvailableStake(
             msg.sender

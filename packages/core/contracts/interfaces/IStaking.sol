@@ -63,15 +63,13 @@ interface IStaking {
 
     function hasAvailableStake(address _indexer) external view returns (bool);
 
-    function getAllocation(address _escrowAddress)
-        external
-        view
-        returns (Allocation memory);
+    function getAllocation(
+        address _escrowAddress
+    ) external view returns (Allocation memory);
 
-    function getAllocationState(address _escrowAddress)
-        external
-        view
-        returns (AllocationState);
+    function getAllocationState(
+        address _escrowAddress
+    ) external view returns (AllocationState);
 
     function getStakedTokens(address _staker) external view returns (uint256);
 
@@ -93,8 +91,7 @@ interface IStaking {
 
     function closeAllocation(address _escrowAddress) external;
 
-    function getListOfStakers(Stakes.Role _role)
-        external
-        view
-        returns (address[] memory, Stakes.Staker[] memory);
+    function getListOfStakers(
+        Stakes.Role _role
+    ) external view returns (address[] memory, Stakes.Staker[] memory);
 }

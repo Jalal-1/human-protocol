@@ -34,11 +34,7 @@ contract RewardPool is IRewardPool {
         uint256 tokens
     );
 
-    constructor(
-        address _eip20,
-        address _staking,
-        uint256 _fees
-    ) {
+    constructor(address _eip20, address _staking, uint256 _fees) {
         eip20 = _eip20;
         staking = _staking;
         fees = _fees;
@@ -71,12 +67,9 @@ contract RewardPool is IRewardPool {
     /**
      * @dev Return rewards for allocation
      */
-    function getRewards(address _escrowAddress)
-        external
-        view
-        override
-        returns (Reward[] memory)
-    {
+    function getRewards(
+        address _escrowAddress
+    ) external view override returns (Reward[] memory) {
         return rewards[_escrowAddress];
     }
 

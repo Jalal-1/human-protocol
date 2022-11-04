@@ -115,9 +115,10 @@ library Stakes {
      * @param stake Staker struct
      * @param _tokens Amount of tokens to unkock
      */
-    function unlockTokens(Stakes.Staker storage stake, uint256 _tokens)
-        internal
-    {
+    function unlockTokens(
+        Stakes.Staker storage stake,
+        uint256 _tokens
+    ) internal {
         stake.tokensLocked = stake.tokensLocked.sub(_tokens);
         if (stake.tokensLocked == 0) {
             stake.tokensLockedUntil = 0;
@@ -129,10 +130,9 @@ library Stakes {
      * @param stake Staker struct
      * @return Amount of tokens available for withdrawal
      */
-    function withdrawTokens(Stakes.Staker storage stake)
-        internal
-        returns (uint256)
-    {
+    function withdrawTokens(
+        Stakes.Staker storage stake
+    ) internal returns (uint256) {
         uint256 tokensToWithdraw = stake.tokensWithdrawable();
 
         if (tokensToWithdraw > 0) {
@@ -148,11 +148,9 @@ library Stakes {
      * @param stake Staker struct
      * @return Token amount
      */
-    function tokensAvailable(Stakes.Staker memory stake)
-        internal
-        pure
-        returns (uint256)
-    {
+    function tokensAvailable(
+        Stakes.Staker memory stake
+    ) internal pure returns (uint256) {
         return stake.tokensStaked.sub(stake.tokensUsed());
     }
 
@@ -161,11 +159,9 @@ library Stakes {
      * @param stake Staker struct
      * @return Token amount
      */
-    function tokensUsed(Stakes.Staker memory stake)
-        internal
-        pure
-        returns (uint256)
-    {
+    function tokensUsed(
+        Stakes.Staker memory stake
+    ) internal pure returns (uint256) {
         return stake.tokensAllocated.add(stake.tokensLocked);
     }
 
@@ -174,11 +170,9 @@ library Stakes {
      * @param stake Staker struct
      * @return Token amount
      */
-    function tokensSecureStake(Stakes.Staker memory stake)
-        internal
-        pure
-        returns (uint256)
-    {
+    function tokensSecureStake(
+        Stakes.Staker memory stake
+    ) internal pure returns (uint256) {
         return stake.tokensStaked.sub(stake.tokensLocked);
     }
 
@@ -187,11 +181,9 @@ library Stakes {
      * @param stake Staker struct
      * @return Token amount
      */
-    function tokensWithdrawable(Stakes.Staker memory stake)
-        internal
-        view
-        returns (uint256)
-    {
+    function tokensWithdrawable(
+        Stakes.Staker memory stake
+    ) internal view returns (uint256) {
         if (
             stake.tokensLockedUntil == 0 ||
             block.number < stake.tokensLockedUntil

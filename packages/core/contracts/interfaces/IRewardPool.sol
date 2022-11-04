@@ -18,10 +18,9 @@ interface IRewardPool {
         uint256 tokens
     ) external;
 
-    function getRewards(address _escrowAddress)
-        external
-        view
-        returns (Reward[] memory);
+    function getRewards(
+        address _escrowAddress
+    ) external view returns (Reward[] memory);
 
     function distributeReward(address _escrowAddress) external;
 }

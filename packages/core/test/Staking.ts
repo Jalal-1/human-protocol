@@ -891,5 +891,14 @@ describe('Staking', function () {
         })
       );
     });
+
+    it('Should return empty array', async () => {
+      const [stakers, stakes] = await staking.getListOfStakers(
+        Role.RecordingOracle
+      );
+
+      expect(stakers.length).to.equal(0);
+      expect(stakes.length).to.equal(0);
+    });
   });
 });

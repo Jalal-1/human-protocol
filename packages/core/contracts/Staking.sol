@@ -124,11 +124,9 @@ contract Staking is IStaking {
      * @dev Set the minimum stake amount.
      * @param _minimumStake Minimum stake
      */
-    function setMinimumStake(uint256 _minimumStake)
-        external
-        override
-        onlyOwner
-    {
+    function setMinimumStake(
+        uint256 _minimumStake
+    ) external override onlyOwner {
         _setMinimumStake(_minimumStake);
     }
 
@@ -200,11 +198,10 @@ contract Staking is IStaking {
      * @param _role Role of the staker
      * @return True if _staker has role
      */
-    function isRole(address _staker, Stakes.Role _role)
-        external
-        view
-        returns (bool)
-    {
+    function isRole(
+        address _staker,
+        Stakes.Role _role
+    ) external view returns (bool) {
         Stakes.Staker memory staker = stakes[_staker];
         return staker.role == _role;
     }
@@ -214,12 +211,9 @@ contract Staking is IStaking {
      * @param _escrowAddress Address used as signer by the staker for an allocation
      * @return True if _escrowAddress already used
      */
-    function isAllocation(address _escrowAddress)
-        external
-        view
-        override
-        returns (bool)
-    {
+    function isAllocation(
+        address _escrowAddress
+    ) external view override returns (bool) {
         return _getAllocationState(_escrowAddress) != AllocationState.Null;
     }
 
@@ -237,12 +231,9 @@ contract Staking is IStaking {
      * @param _staker Address of the staker
      * @return True if staker has available tokens staked
      */
-    function hasAvailableStake(address _staker)
-        external
-        view
-        override
-        returns (bool)
-    {
+    function hasAvailableStake(
+        address _staker
+    ) external view override returns (bool) {
         return stakes[_staker].tokensAvailable() > 0;
     }
 
@@ -251,12 +242,9 @@ contract Staking is IStaking {
      * @param _escrowAddress Address used as allocation identifier
      * @return Allocation data
      */
-    function getAllocation(address _escrowAddress)
-        external
-        view
-        override
-        returns (Allocation memory)
-    {
+    function getAllocation(
+        address _escrowAddress
+    ) external view override returns (Allocation memory) {
         return _getAllocation(_escrowAddress);
     }
 
@@ -265,11 +253,9 @@ contract Staking is IStaking {
      * @param _escrowAddress Address used as allocation identifier
      * @return Allocation data
      */
-    function _getAllocation(address _escrowAddress)
-        private
-        view
-        returns (Allocation memory)
-    {
+    function _getAllocation(
+        address _escrowAddress
+    ) private view returns (Allocation memory) {
         return allocations[_escrowAddress];
     }
 
@@ -278,12 +264,9 @@ contract Staking is IStaking {
      * @param _escrowAddress Address used as the allocation identifier
      * @return AllocationState
      */
-    function getAllocationState(address _escrowAddress)
-        external
-        view
-        override
-        returns (AllocationState)
-    {
+    function getAllocationState(
+        address _escrowAddress
+    ) external view override returns (AllocationState) {
         return _getAllocationState(_escrowAddress);
     }
 
@@ -292,11 +275,9 @@ contract Staking is IStaking {
      * @param _escrowAddress Job identifier (Escrow address)
      * @return AllocationState
      */
-    function _getAllocationState(address _escrowAddress)
-        private
-        view
-        returns (AllocationState)
-    {
+    function _getAllocationState(
+        address _escrowAddress
+    ) private view returns (AllocationState) {
         Allocation storage allocation = allocations[_escrowAddress];
 
         if (allocation.staker == address(0)) {
@@ -336,12 +317,9 @@ contract Staking is IStaking {
      * @param _staker Address of the staker
      * @return Amount of tokens staked by the staker
      */
-    function getStakedTokens(address _staker)
-        external
-        view
-        override
-        returns (uint256)
-    {
+    function getStakedTokens(
+        address _staker
+    ) external view override returns (uint256) {
         return stakes[_staker].tokensStaked;
     }
 
@@ -350,11 +328,9 @@ contract Staking is IStaking {
      * @param _staker Address of the staker
      * @return Staker's data
      */
-    function getStaker(address _staker)
-        external
-        view
-        returns (Stakes.Staker memory)
-    {
+    function getStaker(
+        address _staker
+    ) external view returns (Stakes.Staker memory) {
         return stakes[_staker];
     }
 
@@ -363,7 +339,9 @@ contract Staking is IStaking {
      * @param _role Staker role
      * @return List of staker's addresses, and stake data
      */
-    function getListOfStakers(Stakes.Role _role)
+    function getListOfStakers(
+        Stakes.Role _role
+    )
         external
         view
         override
@@ -371,6 +349,10 @@ contract Staking is IStaking {
     {
         address[] memory _stakerAddresses = stakers[_role];
         uint256 _stakersCount = _stakerAddresses.length;
+
+        if (_stakersCount == 0) {
+            return (new address[](0), new Stakes.Staker[](0));
+        }
 
         Stakes.Staker[] memory _stakers = new Stakes.Staker[](_stakersCount);
 
@@ -499,11 +481,10 @@ contract Staking is IStaking {
      * @param _escrowAddress The allocationID will work to identify collected funds related to this allocation
      * @param _tokens Amount of tokens to allocate
      */
-    function allocate(address _escrowAddress, uint256 _tokens)
-        external
-        override
-        onlyStaker(msg.sender)
-    {
+    function allocate(
+        address _escrowAddress,
+        uint256 _tokens
+    ) external override onlyStaker(msg.sender) {
         _allocate(msg.sender, _escrowAddress, _tokens);
     }
 
@@ -552,11 +533,9 @@ contract Staking is IStaking {
      * @dev Close an allocation and free the staked tokens.
      * @param _escrowAddress The allocation identifier
      */
-    function closeAllocation(address _escrowAddress)
-        external
-        override
-        onlyStaker(msg.sender)
-    {
+    function closeAllocation(
+        address _escrowAddress
+    ) external override onlyStaker(msg.sender) {
         _closeAllocation(_escrowAddress);
     }
 

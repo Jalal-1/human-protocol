@@ -20,8 +20,8 @@ async function main() {
 
   const Staking = await ethers.getContractFactory('Staking');
   const stakingContract = await Staking.deploy(
-    HMTokenContract.address,
-    escrowFactoryContract.address,
+    "0x70E56F184E34691C019124F1252cB3bDF9D6c3d3", // Token
+    "0x8FC328BB13E8B6696842344247f7FBe29D5Eb508", // EscrowFactory
     1,
     1
   );
@@ -30,7 +30,7 @@ async function main() {
 
   const RewardPool = await ethers.getContractFactory('RewardPool');
   const rewardPoolContract = await RewardPool.deploy(
-    HMTokenContract.address,
+    "0x70E56F184E34691C019124F1252cB3bDF9D6c3d3", // Token
     stakingContract.address,
     1
   );

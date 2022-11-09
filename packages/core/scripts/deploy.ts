@@ -2,26 +2,26 @@ import hre, { ethers } from 'hardhat';
 
 async function main() {
   const HMToken = await ethers.getContractFactory('HMToken');
-  const HMTokenContract = await HMToken.deploy(
+  const tokenContract = await HMToken.deploy(
     1000000000,
     'Human Token',
     18,
     'HMT'
   );
-  await HMTokenContract.deployed();
-  console.log('HMToken Address: ', HMTokenContract.address);
+  await tokenContract.deployed();
+  console.log('HMToken Address: ', tokenContract.address);
 
   const EscrowFactory = await ethers.getContractFactory('EscrowFactory');
   const escrowFactoryContract = await EscrowFactory.deploy(
-    HMTokenContract.address
+    tokenContract.address
   );
   await escrowFactoryContract.deployed();
   console.log('Escrow Factory Address: ', escrowFactoryContract.address);
 
   const Staking = await ethers.getContractFactory('Staking');
   const stakingContract = await Staking.deploy(
-    "0x70E56F184E34691C019124F1252cB3bDF9D6c3d3", // Token
-    "0x8FC328BB13E8B6696842344247f7FBe29D5Eb508", // EscrowFactory
+    tokenContract.address, // Token
+    escrowFactoryContract.address, // EscrowFactory
     1,
     1
   );
@@ -30,7 +30,7 @@ async function main() {
 
   const RewardPool = await ethers.getContractFactory('RewardPool');
   const rewardPoolContract = await RewardPool.deploy(
-    "0x70E56F184E34691C019124F1252cB3bDF9D6c3d3", // Token
+    tokenContract.address, // Token
     stakingContract.address,
     1
   );
